@@ -23,6 +23,6 @@ function reg() {
   var pw = document.getElementById('password').value;
   var rpw = document.getElementById('repassword').value;
   if (pw !== rpw) { 
-
+//do nothing
 }
 }
