@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="login.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div class="main">
+
+<div class="left">
+   
+</div>
+
+  <div class="right">
+  <form class="modal-content animate" id="loginForm" method="post">
+    <div class="imgcontainer">
+      
+      <img src="./assets/avatar.png" alt="Avatar" class="avatar">
+    </div>
+    <h1 style="text-align: center;">WELCOME</h1>
+
+    <div class="container">
+        
+      <label for="uname" style="font-size: 15px;">Username</label>
+      <div style="display: flex; position: relative;">
+      <input type="text" id="uname" class="username" name="uname" required>
+      <!-- <img src="./assets/icons8-user-48 (grey) u.png" alt="user" class="uicon"> -->
+      <i class="fa fa-user uicon" style="font-size:32px"></i>
+    </div>
+
+      <label for="psw" style="font-size: 15px;" >Password</label>
+      <div style="display: flex; position: relative;">
+      <input type="password" class="pass" id="password" name="psw" required>
+      <!-- <img src="./assets/icons8-lock-48 grey.png" alt="" class="licon"> -->
+      <i class="fa fa-lock licon" style="font-size:32px"></i>
+    </div>
+<div class="new">
+  
+  <p class="register">Don't Have a Account? <span><a href="signup.html">Signup</a></span></p>
+
+  <a href="#" class="fp">Forget Password?</a>
+</div>
+      <button type="submit" class="loginbtn" onclick="login(event)">LOGIN</button>
+     
+    </div>
+  </form>
+</div>
+</div>
+
+<script src="./script.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $(".fa-user").css("color","#dcdada");
+    $(".fa-lock").css("color","#dcdada");
+
+    $(".username").focus(function(){
+        
+        $(".fa-user").css("color","#39d39f");
+
+    }).blur(function() {
+        $(".fa-user").css("color","#dcdada");
+        console.log('out');
+    });
+
+    $(".pass").focus(function(){
+      
+        $(".fa-lock").css("color","#39d39f");
+        console.log("in");
+    }).blur(function() {
+        $(".fa-lock").css("color","#dcdada");
+        console.log('out');
+    });
+
+
+});
+</script>
+</body>
+</html>
