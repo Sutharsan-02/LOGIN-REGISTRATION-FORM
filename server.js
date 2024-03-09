@@ -1,36 +1,62 @@
-// server.js
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
 const cors = require('cors');
+
 const app = express();
 const port = 3000;
 
 app.use(cors());
-
-// Middleware to parse JSON in the request body
 app.use(bodyParser.json());
 
-// Example in-memory user data
-const users = [
-  { username: 'user1', password: 'pass1' },
-  { username: 'user2', password: 'pass2' }
-];
+mongoose.connect(
+  "mongodb+srv://sutharsan0202:oTmrggiwgxVAB7YQ@cluster0.uxfnbqs.mongodb.net/mongologin",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
+const UserSchema = new mongoose.Schema({
+  Useremail: String,
+  password: String
+}, { collection: 'userdetails' });
 
-app.post('/signin', (req, res) => {
-  const { username, password } = req.body;
+const User = mongoose.model("User", UserSchema);
 
-  const user = users.find(u => u.username === username && u.password === password);
-  console.log("User", user)
-  if (user) {
-    // Successful login
-    res.json({ success: true, message: 'Login successful' });
-  } else {
-    // Invalid credentials
-    res.status(401).json({ success: false, message: 'Invalid credentials' });
+app.post("/signup", async function (req, res) {
+  try {
+    const user = new User({
+      email: req.body.email,
+      password: req.body.password,
+    });
+    const savedUser = await user.save();
+    res.status(200).json({ message: "Registered Successfully" }); 
+  } catch (err) {
+    console.error("Error in signup:", err);
+    res.status(500).json({ error: "Error in registration" }); // Send JSON response for error
   }
 });
 
-// Start the server
+// POST route to login
+app.post('/signin', async (req, res) => {
+  const { username, password } = req.body;
+  let email = username;
+  try {
+    const user = await User.findOne({ email });
+    console.log(email, user);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    if (user.password !== password) {
+      return res.status(401).json({ error: 'Incorrect password' });
+    }
+    res.status(200).json({ message: 'Login successful' });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
